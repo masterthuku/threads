@@ -1,13 +1,16 @@
-import { authMiddleware as clerkMiddleware } from '@clerk/nextjs/server';
+// Resource: https://clerk.com/docs/nextjs/middleware#auth-middleware
+// Copy the middleware code as it is from the above resource
 
-export default clerkMiddleware({
-  publicRoutes: ['/', '/api/webhook/clerk'],
-  ignoredRoutes: ['/api/webhook/clerk'],
+import { authMiddleware } from "@clerk/nextjs/server";
+
+export default authMiddleware({
+  // An array of public routes that don't require authentication.
+  publicRoutes: ["/api/webhook/clerk", "/api/uploadthing"],
+
+  // An array of routes to be ignored by the authentication middleware.
+  ignoredRoutes: ["/api/webhook/clerk"],
 });
 
 export const config = {
-  matcher: [
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    '/(api|trpc)(.*)',
-  ],
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
